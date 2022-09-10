@@ -22,14 +22,11 @@ end
 
 % Room A
 cd room_a\feat2\ 
-[y, ~] = audioread("imp_resp_a.wav");
+[y_a, ~] = audioread("imp_resp_a.wav");
+[y_b, ~] = audioread("imp_resp_b.wav");
 cd ..\..\data\feat2
-save("imp_resp_a_a.mat", "y");
-cd ..\..\room_a\feat2\
-
-[y, ~] = audioread("imp_resp_b.wav");
-cd ..\..\data\feat2
-save("imp_resp_b_a.mat", "y");
+save("imp_resp_a_a.mat", "y_a");
+save("imp_resp_b_a.mat", "y_b");
 cd ..\..
 
 for ii = 1:4
@@ -56,14 +53,11 @@ end
 
 % Room B
 cd room_b\feat2\ 
-[y, ~] = audioread("imp_resp_a.wav");
+[y_a, ~] = audioread("imp_resp_a.wav");
+[y_b, ~] = audioread("imp_resp_b.wav");
 cd ..\..\data\feat2
-save("imp_resp_a_b.mat", "y");
-cd ..\..\room_b\feat2\
-
-[y, ~] = audioread("imp_resp_b.wav");
-cd ..\..\data\feat2
-save("imp_resp_b_b.mat", "y");
+save("imp_resp_a_b.mat", "y_a");
+save("imp_resp_b_b.mat", "y_b");
 cd ..\..
 
 for ii = 1:4

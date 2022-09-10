@@ -18,7 +18,7 @@ for ii = 1:4
 
     semilogx(freq_resp); axis square
     hold on;
-    xlim([100, 1e4])
+    xlim([0, 2e4])
     ylim([-120, 10])
 
     title(sprintf("Frequency Response (%d degrees)", (ii-1)*90));
