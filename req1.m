@@ -6,20 +6,16 @@ for ii = 1:4
     figure;
 
     filename = sprintf("deg%d.mat", (ii-1)*90);
-    imp_resp = load(filename).y;
+    imp_resp = load(filename).y(4.75e4:9.55e4);
     
-    freq_resp = abs(fft(imp_resp)).^2;
+    freq_resp = abs(fft(imp_resp));%.^2;
     freq_resp = freq_resp(1:floor(length(freq_resp)/2));
-    freq_resp(1) = freq_resp(1)/2;
 
-    dc_ = freq_resp(1);
+    freq_resp = 20*log10(freq_resp);
 
-    freq_resp = 10*log10(freq_resp);
-
-    semilogx(freq_resp); axis square
-    hold on;
-    xlim([0, 2e4])
-    ylim([-120, 10])
+    freq_range = 100:1e4;
+    semilogx(freq_range, freq_resp(freq_range)); axis square
+    hold on
 
     title(sprintf("Frequency Response (%d degrees)", (ii-1)*90));
     ylabel("dB");
