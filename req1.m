@@ -1,6 +1,6 @@
 close all;
 
-cd data\cali\
+addpath data\cali\
 
 for ii = 1:4
     figure;
@@ -11,7 +11,7 @@ for ii = 1:4
     freq_resp = abs(fft(imp_resp));%.^2;
     freq_resp = freq_resp(1:floor(length(freq_resp)/2));
 
-    freq_resp = 20*log10(freq_resp);
+    freq_resp = 20*log10(freq_resp/freq_resp(1));
 
     freq_range = 100:1e4;
     semilogx(freq_range, freq_resp(freq_range)); axis square
@@ -23,5 +23,3 @@ for ii = 1:4
 
     hold off;
 end
-
-cd ../..

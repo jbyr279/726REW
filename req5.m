@@ -1,6 +1,6 @@
 close all;
 
-cd data\feat4\
+addpath data\feat4\
 
 C50_a = [];
 C50_b = [];
@@ -21,5 +21,3 @@ for ii = room
         end
     end
 end
-
-cd ../..

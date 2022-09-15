@@ -6,7 +6,7 @@ tob_cf = [250, 315, 400, 500, 630, 800, 1000, ...
 rooms = ["a", "b"];
 positions = ["a", "b"];
 
-cd data\feat2\
+addpath data\feat2\
 for room = rooms
     for pos = positions
 
@@ -14,15 +14,27 @@ for room = rooms
         imp_resp = load(filename).y(4.75e4:9.55e4); 
         EDC = [];
         
-        for kk = 1:length(imp_resp)
-            EDC(kk) = 10*log10(sum(imp_resp(kk:end).^2));
-            % Doesn't start at 0?? Every 1/3 OBCF?
-        end
+        figure;
         
-        plot(EDC);
-        break;
-    end
-    break;
-end
+        labels = [];
+        y = [];
+        for cf = tob_cf
+            [B,A] = oct3dsgn(cf, 4.8e4, 3);
+            y = filter(B,A,imp_resp);
+            
+            for kk = 1:length(y)
+                EDC(kk) = 10*log10(sum(y(kk:end).^2));
+                % Doesn't start at 0??
+            end
+            plot(EDC); axis square
+            hold on
+            
+            title(sprintf("EDC - Room %s, Position %s", upper(room), upper(pos)));
+            ylabel("dB");
+            xlabel("Time");
 
-cd ../..
+            labels = [labels sprintf("1/3 Octave Band Freq: %d", cf)];
+        end
+        legend(labels);
+    end
+end

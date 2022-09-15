@@ -1,13 +1,12 @@
 close all;
 
-cd data\cali\
+addpath data\cali\
 speaker_char = load("deg0.mat").y;
-cd ..
-cd feat2\
 
 rooms = ["a", "b"];
 positions = ["a", "b"];
 
+addpath data\feat2\
 for room = rooms
     labels = [];
     figure;
@@ -19,7 +18,7 @@ for room = rooms
         freq_resp = freq_resp(1:floor(length(freq_resp)/2));
         
         max_gain = max(freq_resp);
-        freq_resp = 20*log10(freq_resp/max_gain);
+        freq_resp = 20*log10(freq_resp/freq_resp(1)/max_gain);
 
         freq_range = 100:2e4;
         semilogx(freq_range, freq_resp(freq_range)); axis square
@@ -37,5 +36,3 @@ for room = rooms
     legend(labels);
     hold off;
 end
-
-cd ../..
