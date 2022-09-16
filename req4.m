@@ -18,8 +18,8 @@ for room = rooms
         
         labels = [];
         y = [];
-        for cf = tob_cf
-            [B,A] = oct3dsgn(cf, 4.8e4, 3);
+        for cf = 1:length(tob_cf)
+            [B,A] = oct3dsgn(tob_cf(cf), 4.8e4, 3);
             y = filter(B,A,imp_resp);
             
             for kk = 1:length(y)
@@ -29,20 +29,9 @@ for room = rooms
             % Normalise
             EDC = 10*log10(EDC/max(EDC));
 
-            Y_EDT = EDC(min(find(EDC<0)):min(find(EDC<-10)))';
-            Y_T20 = EDC(min(find(EDC<-5)):min(find(EDC<-20)))';
+            EDT = RTcalc("EDT", EDC);
+            T20 = RTcalc("T20", EDC);
 
-            X_EDT = [ones(length(Y_EDT), 1) , (1:length(Y_EDT))'];
-            X_T20 = [ones(length(Y_T20), 1) , (1:length(Y_T20))'];
-
-            beta_EDT = X_EDT \ Y_EDT;
-            beta_T20 = X_T20 \ Y_T20;
-
-            X = [ones(length(EDC), 1) , (1:length(EDC))'];
-
-            EDT = min(find((X * beta_EDT)<-60))/1e4;
-            T20 = min(find((X * beta_T20)<-60))/1e4;
-            
             plot(EDC); axis square
             hold on
 
@@ -50,7 +39,7 @@ for room = rooms
             ylabel("dB");
             xlabel("Time");
 
-            labels = [labels sprintf("%dHz - EDT: %.2f, T20: %.2f", cf, EDT, T20)];
+            labels = [labels sprintf("%.1fHz %.2fs %.2fs", tob_cf(cf), EDT, T20)];
         end
         legend(labels);
     end
