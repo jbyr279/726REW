@@ -18,7 +18,7 @@ for room = rooms
         freq_resp = freq_resp(1:floor(length(freq_resp)/2));
         
         max_gain = max(freq_resp);
-        freq_resp = 20*log10(freq_resp/freq_resp(1)/max_gain);
+        freq_resp = 20*log10(freq_resp/max_gain);
 
         freq_range = 100:2e4;
         semilogx(freq_range, freq_resp(freq_range)); axis square
