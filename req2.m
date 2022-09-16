@@ -14,8 +14,10 @@ hold on;
 semilogx(cent_freq, room_a);
 semilogx(cent_freq, room_b);
 
-xlim([16, 8e3]);
+xlim([10, 14e3]);
 ylim([0, 100]);
+
+xticks(cent_freq);
 
 title("Room Octave Band NCB Check");
 ylabel("SPL");

@@ -2,22 +2,27 @@ close all;
 
 addpath data\feat4\
 
-C50_a = [];
-C50_b = [];
+C50 = [];
+labels = [];
 
-dist = [0.5, 1, 2, 3];
-room = ["a", "b"];
+distances = [0.5, 1, 2, 3];
+rooms = ["a", "b"];
 
-for ii = room
-    for jj = 1:length(dist)
+for room = rooms
+    for dist = 1:length(distances)
         
-        filename = sprintf("imp_resp_%s_%s.mat", num2str(dist(jj)), ii);
+        filename = sprintf("imp_resp_%s_%s.mat", num2str(distances(dist)), room);
         imp_resp = load(filename).y;
         
-        if ii == "a"
-            C50_a(jj) = 1;
-        else 
-            C50_b(jj) = 1;
-        end
+        C50(dist) = 10*log10(sum(imp_resp(1:500).^2)/sum(imp_resp(500:end).^2));
     end
+    plot(distances, C50); hold on
+
+    labels = [labels sprintf("Room %s", upper(room))];
 end
+
+legend(labels, 'Location', 'southeast'); axis square
+xlabel("Distance (m)");
+ylabel("Clarity 50 (dB)");
+xlim([0, 3.5]);
+xticks(distances);
