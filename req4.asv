@@ -28,11 +28,19 @@ for room = rooms
 
             EDC = 10*log10(EDC/max(EDC));
 
-            
-            
+            Y_EDT = EDC(min(find(EDC<0)):min(find(EDC<-10)))';
+            Y_T20 = EDC(min(find(EDC<-5)):min(find(EDC<-20)))';
+
+            X_EDT = [ones(length(Y_EDT), 1) , (1:length(Y_EDT))'];
+            Y_T20 = [ones(length(Y_T20), 1) , (1:length(Y_T20))'];
+
+            beta_EDT = X_EDT \ Y_EDT;
+            beta_T20 = X_T20 \ Y_T20;
+
             X = [ones(length(EDC), 1) , (1:length(EDC))'];
-            beta = X \ EDC';
-            y_decay = X * beta;
+
+            EDT = find((X * beta_EDT));
+            T_20 = 
             
             plot(EDC); axis square
             hold on

@@ -28,17 +28,23 @@ for room = rooms
 
             EDC = 10*log10(EDC/max(EDC));
 
-            Y = EDC(min(find(EDC<0)):min(find(EDC<-10)))';
-            
-            X = [ones(length(Y), 1) , (1:length(Y))'];
+            Y_EDT = EDC(min(find(EDC<0)):min(find(EDC<-10)))';
+            Y_T20 = EDC(min(find(EDC<-5)):min(find(EDC<-20)))';
 
-            beta = X \ Y;
-            y_decay = X * beta;
+            X_EDT = [ones(length(Y_EDT), 1) , (1:length(Y_EDT))'];
+            X_T20 = [ones(length(Y_T20), 1) , (1:length(Y_T20))'];
+
+            beta_EDT = X_EDT \ Y_EDT;
+            beta_T20 = X_T20 \ Y_T20;
+
+            X = [ones(length(EDC), 1) , (1:length(EDC))'];
+
+            EDT = min(find((X * beta_EDT)<-60))/1e4;
+            T_20 = min(find((X * beta_T20)<-60))/1e4;
             
             plot(EDC); axis square
             hold on
-            plot(y_decay);
-            
+
             title(sprintf("EDC - Room %s, Position %s", upper(room), upper(pos)));
             ylabel("dB");
             xlabel("Time");
