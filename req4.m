@@ -40,7 +40,7 @@ for room = rooms
             X = [ones(length(EDC), 1) , (1:length(EDC))'];
 
             EDT = min(find((X * beta_EDT)<-60))/1e4;
-            T_20 = min(find((X * beta_T20)<-60))/1e4;
+            T20 = min(find((X * beta_T20)<-60))/1e4;
             
             plot(EDC); axis square
             hold on
@@ -49,9 +49,8 @@ for room = rooms
             ylabel("dB");
             xlabel("Time");
 
-            labels = [labels sprintf("1/3 OBCF: %d, EDT: %d, T20: %d", cf)];
+            labels = [labels sprintf("%dHz - EDT: %d.2, T20: %d.2", cf, EDT, T20)];
         end
         legend(labels);
-        break
     end
 end
