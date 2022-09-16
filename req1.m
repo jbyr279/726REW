@@ -18,7 +18,7 @@ for ii = 1:4
     hold on
 
     title(sprintf("Frequency Response (%d degrees)", (ii-1)*90));
-    ylabel("dB");
+    ylabel("Level (dB)");
     xlabel("Frequency (Hz)");
 
     hold off;

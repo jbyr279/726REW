@@ -27,7 +27,7 @@ for room = rooms
         
         xlim([100 1e4])
         title(sprintf("Frequency Response: Room %s", upper(room)));
-        ylabel("dB");
+        ylabel("Level (dB)");
         xlabel("Frequency (Hz)");
 
         labels = [labels sprintf("Position %s", upper(pos))];

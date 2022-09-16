@@ -36,8 +36,8 @@ for room = rooms
             hold on
 
             title(sprintf("EDC - Room %s, Position %s", upper(room), upper(pos)));
-            ylabel("dB");
-            xlabel("Time");
+            ylabel("Level (dB)");
+            xlabel("Time (\times10^{-4} s)");
 
             labels = [labels sprintf("%.1fHz %.2fs %.2fs", tob_cf(cf), EDT, T20)];
         end

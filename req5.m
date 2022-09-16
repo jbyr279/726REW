@@ -22,7 +22,8 @@ for room = rooms
 end
 
 legend(labels, 'Location', 'southeast'); axis square
+title("50ms Clarity Curves") 
 xlabel("Distance (m)");
-ylabel("Clarity 50 (dB)");
-xlim([0, 3.5]);
+ylabel("C_{50} (dB)");
+xlim([0.3, 3.2]);
 xticks(distances);
