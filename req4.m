@@ -25,7 +25,8 @@ for room = rooms
             for kk = 1:length(y)
                 EDC(kk) = sum(y(kk:end).^2);
             end
-
+            
+            % Normalise
             EDC = 10*log10(EDC/max(EDC));
 
             Y_EDT = EDC(min(find(EDC<0)):min(find(EDC<-10)))';
@@ -49,7 +50,7 @@ for room = rooms
             ylabel("dB");
             xlabel("Time");
 
-            labels = [labels sprintf("%dHz - EDT: %d.2, T20: %d.2", cf, EDT, T20)];
+            labels = [labels sprintf("%dHz - EDT: %.2f, T20: %.2f", cf, EDT, T20)];
         end
         legend(labels);
     end
