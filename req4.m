@@ -1,16 +1,18 @@
 close all;
 
-tob_cf = [250, 315, 400, 500, 630, 800, 1000, ...
+third_cf = [250, 315, 400, 500, 630, 800, 1000, ...
     1250, 1600, 2000, 2500, 3150, 4000];
 
 rooms = ["a", "b"];
 positions = ["a", "b"];
 
 addpath data\feat2\
-for room = rooms
-    for pos = positions
+for room = 1:length(rooms)
+    EDT = zeros(length(positions), length(third_cf));
+    T20 = zeros(length(positions), length(third_cf));
+    for pos = 1:length(positions)
 
-        filename = sprintf("imp_resp_%s_%s.mat", room, pos);
+        filename = sprintf("imp_resp_%s_%s.mat", rooms(room), positions(pos));
         imp_resp = load(filename).y(4.75e4:9.55e4); 
         EDC = [];
         
@@ -18,8 +20,8 @@ for room = rooms
         
         labels = [];
         y = [];
-        for cf = 1:length(tob_cf)
-            [B,A] = oct3dsgn(tob_cf(cf), 4.8e4, 3);
+        for cf = 1:length(third_cf)
+            [B,A] = oct3dsgn(third_cf(cf), 4.8e4, 3);
             y = filter(B,A,imp_resp);
             
             for kk = 1:length(y)
@@ -29,18 +31,35 @@ for room = rooms
             % Normalise
             EDC = 10*log10(EDC/max(EDC));
 
-            EDT = RTcalc("EDT", EDC);
-            T20 = RTcalc("T20", EDC);
+            EDT(pos,cf) = RTcalc("EDT", EDC);
+            T20(pos,cf) = RTcalc("T20", EDC);
 
-            plot(EDC); axis square
-            hold on
+            plot(EDC); axis square; hold on;
 
-            title(sprintf("EDC - Room %s, Position %s", upper(room), upper(pos)));
+            title(sprintf("EDC - Room %s, Position %s", upper(rooms(room)), upper(positions(pos))));
             ylabel("Level (dB)");
             xlabel("Time (\times10^{-4} s)");
 
-            labels = [labels sprintf("%.1fHz %.2fs %.2fs", tob_cf(cf), EDT, T20)];
         end
+        hold off;
+        figure;
+        
+        semilogx(third_cf, EDT(1,:)); axis square; hold on
+        semilogx(third_cf, EDT(2,:))
+        semilogx(third_cf, T20(1,:));
+        semilogx(third_cf, T20(2,:));
+        hold off;
+        
+        title(sprintf("Reverberation Time - Room %s", upper(rooms(room))));
+        ylabel("RT (s)");
+        xlabel("Frequency (Hz)");
+
+        xticks(third_cf);
+
+        labels =   ["EDT - position A"
+                    "EDT - position B"
+                    "T20 - position A"
+                    "T20 - position B"];
         legend(labels);
     end
 end
